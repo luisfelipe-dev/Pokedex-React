@@ -12,7 +12,7 @@ export default function Header(props) {
 		setActive(pokemon.id);
 
 		setTimeout(() => {
-			removeFavorite(pokemon.id);
+			removeFavorite(pokemon);
 		}, 2000);
 	};
 
