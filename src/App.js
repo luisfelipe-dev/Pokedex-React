@@ -10,8 +10,9 @@ import './global.css';
 import * as Style from './style';
 
 function App() {
-	const [pokemons, setPokemons] = useState([]);
 	const [loading, setLoading] = useState(true);
+	const [pokemons, setPokemons] = useState([]);
+	const [favorite, setFavorite] = useState([]);
 
 	const loadPokemons = async () => {
 		const allPokemons = [];
@@ -32,6 +33,24 @@ function App() {
 		}
 	};
 
+	const getPokemon = (pokemon) => {
+		const favoriteIds = favorite.map((pokemon) => {
+			return pokemon.id;
+		});
+
+		if (favorite.length >= 6 && !favoriteIds.includes(pokemon.id) ) {
+			alert('Você pode escolher apenas 6 pokémons.');
+		} else if (favoriteIds.includes(pokemon.id)) {
+			setFavorite(
+				favorite.filter((item) => {
+					return pokemon.id !== item.id;
+				})
+			);
+		} else {
+			setFavorite([...favorite, pokemon]);
+		}
+	};
+
 	useEffect(() => {
 		loadPokemons();
 	}, []);
@@ -42,7 +61,7 @@ function App() {
 
 			{pokemons && (
 				<>
-					<Header displayPoke={pokemons && true} />
+					<Header displayPoke={pokemons && true} favorites={favorite} removeFavorite={getPokemon}/>
 
 					<Style.Container>
 						<div className="container">
@@ -55,6 +74,7 @@ function App() {
 											alt={pokemon.name}
 										/>
 										<p>{pokemon.name}</p>
+										<button onClick={() => getPokemon(pokemon)}>Capturar</button>
 									</li>
 								))}
 							</ul>
