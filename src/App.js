@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
 import api from './services/api';
 
@@ -10,56 +10,60 @@ import './global.css';
 import * as Style from './style';
 
 function App() {
-  const [pokemons, setPokemons] = useState([]);
-  const [loading, setLoading] = useState(false);
+	const [pokemons, setPokemons] = useState([]);
+	const [loading, setLoading] = useState(true);
 
-  const loadPokemons = async () => {
-    const allPokemons = [];
-    try {
-      for (let i = 1; i < 150; i++) {
-        await allPokemons.push(api.get(`${i}`).then(res => res.data));
-      }
+	const loadPokemons = async () => {
+		const allPokemons = [];
+		try {
+			for (let i = 1; i <= 150; i++) {
+				await allPokemons.push(api.get(`${i}`).then((res) => res.data));
+			}
 
-      Promise.all(allPokemons).then(pokemons => setPokemons(pokemons));
-    } catch (err) {
-      console.log('caiu no erro');
-    }
-  };
+			Promise.all(allPokemons).then((pokemons) => {
+				setPokemons(pokemons);
+				setTimeout(() => {
+					setLoading(false);
+				}, 500);
+			});
+		} catch (err) {
+			setLoading(false);
+			console.log('caiu no erro');
+		}
+	};
 
-  useEffect(() => {
-    setLoading(true);
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+	useEffect(() => {
+		loadPokemons();
+	}, []);
 
-    loadPokemons();
+	return (
+		<>
+			{loading && <Loading />}
 
-    return () => clearTimeout(timer);
-  }, []);
+			{pokemons && (
+				<>
+					<Header displayPoke={pokemons && true} />
 
-  return (
-    <>
-      {loading && <Loading />}
-
-      <Header />
-
-      <Style.Container>
-        <div className="container">
-          <ul>
-            {pokemons.map(pokemon => (
-              <li key={pokemon.id}>
-                <img
-                  src={`https://pokeres.bastionbot.org/images/pokemon/${pokemon.id}.png`}
-                  alt={pokemon.name}
-                />
-                <p>{pokemon.name}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </Style.Container>
-    </>
-  );
+					<Style.Container>
+						<div className="container">
+							<ul>
+								{pokemons.map((pokemon) => (
+									<li key={pokemon.id}>
+										<img
+											async
+											src={`https://pokeres.bastionbot.org/images/pokemon/${pokemon.id}.png`}
+											alt={pokemon.name}
+										/>
+										<p>{pokemon.name}</p>
+									</li>
+								))}
+							</ul>
+						</div>
+					</Style.Container>
+				</>
+			)}
+		</>
+	);
 }
 
 export default App;

@@ -26,6 +26,10 @@ export const Header = styled.div`
     box-shadow: 0px 0px 11px -13px rgba(0, 0, 0, 0.75);
     padding: 10px;
 
+    &.none{
+      display: none;
+    }
+
     .catch__title {
       width: 100%;
       height: 33px;

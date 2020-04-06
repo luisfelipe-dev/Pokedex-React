@@ -4,7 +4,8 @@ import * as Style from './style';
 
 import Logo from '../../assets/logo.png';
 
-export default function Header() {
+export default function Header(props) {
+  const {displayPoke} = props;
   const [active, setActive] = useState(false);
 
   const activeClass = () => {
@@ -21,7 +22,7 @@ export default function Header() {
           <img src={Logo} alt="Pokédex" />
         </div>
 
-        <div className="catch">
+        <div className={`catch ${displayPoke ? '' : 'none'}`}>
           <div className="catch__title">
             <p>Escolha 6 Pokémons</p>
 
