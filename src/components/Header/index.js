@@ -7,13 +7,20 @@ import Logo from '../../assets/logo.png';
 export default function Header(props) {
 	const { displayPoke, favorites, removeFavorite } = props;
 	const [active, setActive] = useState(false);
+	const [pokename, setPokeName] = useState();
 
 	const activeClass = (pokemon) => {
 		setActive(pokemon.id);
+		setPokeName(pokemon);
 
-		setTimeout(() => {
-			removeFavorite(pokemon);
-		}, 2000);
+		// setTimeout(() => {
+		// 	removeFavorite(pokemon);
+		// }, 2000);
+	};
+
+	const removePoke = (pokemon) => {
+		setPokeName();
+		removeFavorite(pokemon);
 	};
 
 	// DAR UMA LIDA NESSE CARA PARA FAZER A LISTAGEM E O EFEITO DE ACTIVE
@@ -27,6 +34,13 @@ export default function Header(props) {
 				</div>
 
 				<div className={`catch ${displayPoke ? '' : 'none'}`}>
+					{pokename && (
+						<div className="catch__tooltip">
+							Remover Pokemon? {pokename.name}
+							<button onClick={() => removePoke(pokename)}>Sim</button>
+						</div>
+					)}
+
 					<div className="catch__title">
 						<p>Escolha 6 Pokémons</p>
 
