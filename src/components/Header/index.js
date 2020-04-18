@@ -22,7 +22,12 @@ export default function Header(props) {
 		setPokeName();
 		removeFavorite(pokemon);
 	};
-	
+
+	const closeModal = () => {
+		setPokeName();
+		setActive();
+	};
+
 	return (
 		<div className="container">
 			<Style.Header>
@@ -35,6 +40,7 @@ export default function Header(props) {
 						<div className="catch__tooltip">
 							Remover Pokemon? {pokename.name}
 							<button onClick={() => removePoke(pokename)}>Sim</button>
+							<button onClick={closeModal}>Não</button>
 						</div>
 					)}
 
