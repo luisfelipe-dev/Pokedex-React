@@ -22,10 +22,7 @@ export default function Header(props) {
 		setPokeName();
 		removeFavorite(pokemon);
 	};
-
-	// DAR UMA LIDA NESSE CARA PARA FAZER A LISTAGEM E O EFEITO DE ACTIVE
-	// https://stackoverflow.com/questions/54126640/toggle-active-state-with-hooks-react
-
+	
 	return (
 		<div className="container">
 			<Style.Header>
